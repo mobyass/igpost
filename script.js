@@ -1,6 +1,7 @@
 // Attendre que le DOM soit complètement chargé
 document.addEventListener('DOMContentLoaded', function() {
 
+
 // Variables
 let equipeA = null;
 let equipeB = null;
@@ -26,6 +27,7 @@ const btnZoom = document.getElementById("btnZoom");
 const btnCloseZoom = document.getElementById("btnCloseZoom");
 const zoomSlider = document.getElementById("zoomSlider");
 const btnExport = document.getElementById("btnExport");
+const btnShare = document.getElementById("btnShare");
 const bgImage = document.getElementById("bgImage");
 const capture = document.getElementById("capture");
 
@@ -66,6 +68,7 @@ btnZoom.addEventListener("click", () => toggleZoom(true));
 btnCloseZoom.addEventListener("click", () => toggleZoom(false));
 zoomSlider.addEventListener("input", (e) => zoomBg(e.target.value));
 btnExport.addEventListener("click", exportImage);
+btnShare.addEventListener("click", shareImage);
 
 // Functions
 function openClubList(team) {
@@ -216,6 +219,33 @@ function exportImage() {
     a.href = canvas.toDataURL("image/png");
     a.download = "post-match.png";
     a.click();
+  });
+}
+
+function shareImage() {
+  html2canvas(capture, { scale: 4, useCORS: true }).then(canvas => {
+    canvas.toBlob(blob => {
+      if (navigator.share && navigator.canShare && navigator.canShare({ files: [new File([blob], "post-match.png", { type: "image/png" })] })) {
+        const file = new File([blob], "post-match.png", { type: "image/png" });
+        navigator.share({
+          files: [file],
+          title: "Post Match",
+          text: "Découvrez ce match !"
+        }).catch(err => {
+          console.log("Partage annulé", err);
+        });
+      } else {
+        // Fallback: copier dans le presse-papier
+        canvas.toBlob(blob => {
+          const item = new ClipboardItem({ "image/png": blob });
+          navigator.clipboard.write([item]).then(() => {
+            alert("✅ Image copiée dans le presse-papier !");
+          }).catch(err => {
+            alert("❌ Impossible de partager. Utilisez le bouton Exporter.");
+          });
+        });
+      }
+    });
   });
 }
 
