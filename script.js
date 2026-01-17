@@ -2,11 +2,69 @@
 let equipeA = null;
 let equipeB = null;
 let currentTeam = null;
-let filteredClubs = [];
 
+// Elements DOM
 const clubList = document.getElementById("clubList");
 const clubSearch = document.getElementById("clubSearch");
+const btnTeamA = document.getElementById("btnTeamA");
+const btnTeamB = document.getElementById("btnTeamB");
+const logoA = document.getElementById("logoA");
+const logoB = document.getElementById("logoB");
+const matchTitle = document.getElementById("matchTitle");
+const displayScoreA = document.getElementById("displayScoreA");
+const displayScoreB = document.getElementById("displayScoreB");
+const inputScoreA = document.getElementById("inputScoreA");
+const inputScoreB = document.getElementById("inputScoreB");
+const inputInfo2 = document.getElementById("inputInfo2");
+const info1 = document.getElementById("info1");
+const info2 = document.getElementById("info2");
+const fileInput = document.getElementById("fileInput");
+const btnZoom = document.getElementById("btnZoom");
+const btnCloseZoom = document.getElementById("btnCloseZoom");
+const zoomSlider = document.getElementById("zoomSlider");
+const btnExport = document.getElementById("btnExport");
+const bgImage = document.getElementById("bgImage");
+const capture = document.getElementById("capture");
 
+// Event Listeners
+btnTeamA.addEventListener("click", () => openClubList("A"));
+btnTeamB.addEventListener("click", () => openClubList("B"));
+
+inputScoreA.addEventListener("input", (e) => {
+  displayScoreA.textContent = Math.max(0, e.target.value || 0);
+});
+
+inputScoreB.addEventListener("input", (e) => {
+  displayScoreB.textContent = Math.max(0, e.target.value || 0);
+});
+
+inputInfo2.addEventListener("input", (e) => {
+  info2.textContent = e.target.value;
+});
+
+// Competition buttons
+document.querySelectorAll('[data-competition]').forEach(btn => {
+  btn.addEventListener("click", (e) => {
+    const competition = e.target.dataset.competition;
+    info1.textContent = competition;
+    
+    // Remove active class from all buttons
+    e.target.parentElement.querySelectorAll("button").forEach(b => {
+      b.classList.remove("active");
+    });
+    
+    // Add active class to clicked button
+    e.target.classList.add("active");
+  });
+});
+
+fileInput.addEventListener("change", loadBackground);
+btnZoom.addEventListener("click", () => toggleZoom(true));
+btnCloseZoom.addEventListener("click", () => toggleZoom(false));
+zoomSlider.addEventListener("input", (e) => zoomBg(e.target.value));
+btnExport.addEventListener("click", exportImage);
+
+// Functions
 function openClubList(team) {
   currentTeam = team;
   clubList.innerHTML = "";
@@ -29,7 +87,7 @@ function renderClubList(filter) {
     div.className = "club-option";
     div.textContent = club.nom;
 
-    div.onclick = () => {
+    div.addEventListener("click", () => {
       if (currentTeam === "A") {
         equipeA = club;
         logoA.style.backgroundImage = `url(${club.logo})`;
@@ -45,7 +103,7 @@ function renderClubList(filter) {
 
       clubList.classList.add("hidden");
       clubSearch.classList.add("hidden");
-    };
+    });
 
     clubList.appendChild(div);
   });
@@ -61,19 +119,6 @@ document.addEventListener("keydown", e => {
     clubSearch.classList.add("hidden");
   }
 });
-
-function setInfo1(txt, e) {
-  info1.textContent = txt;
-  setActive(e);
-}
-
-function setActive(e) {
-  e.target.parentElement
-    .querySelectorAll("button")
-    .forEach(b => b.classList.remove("active"));
-
-  e.target.classList.add("active");
-}
 
 const FRAME_W = 400;
 const FRAME_H = 500;
@@ -134,21 +179,23 @@ function toggleZoom(show) {
   zoomControls.classList.toggle("hidden", !show);
 }
 
-capture.onmousedown = e => {
+capture.addEventListener("mousedown", (e) => {
   dragging = true;
   startX = e.clientX - offsetX;
   startY = e.clientY - offsetY;
-};
+});
 
-window.onmousemove = e => {
+window.addEventListener("mousemove", (e) => {
   if (!dragging) return;
   offsetX = e.clientX - startX;
   offsetY = e.clientY - startY;
   clamp();
   apply();
-};
+});
 
-window.onmouseup = () => dragging = false;
+window.addEventListener("mouseup", () => {
+  dragging = false;
+});
 
 function clamp() {
   offsetX = Math.min(0, Math.max(FRAME_W - bgImage.width, offsetX));
