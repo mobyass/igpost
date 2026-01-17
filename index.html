@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Post Match Generator</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mobyass igPost</title>
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Jersey+25&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 
-  <!-- CSS -->
-  <link rel="stylesheet" href="style.css">
-
   <!-- html2canvas -->
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+  <!-- CSS externe -->
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -23,7 +23,7 @@
 
 <div class="layout">
 
-  <!-- VISUEL -->
+  <!-- ===== VISUEL (Fixed) ===== -->
   <div class="visual-container">
     <div class="base" id="capture">
       <img id="bgImage" class="bg-image">
@@ -38,79 +38,117 @@
       <div class="degrader"></div>
       <div class="vertA" id="logoA"></div>
       <div class="vertB" id="logoB"></div>
-
       <div class="scoreA" id="displayScoreA">0</div>
       <div class="trait">-</div>
       <div class="scoreB" id="displayScoreB">0</div>
+
     </div>
   </div>
 
-  <!-- CONTROLS -->
+  <!-- ===== CONTROLS (Scrollable) ===== -->
   <div class="controls">
 
+    <!-- Équipes -->
     <div class="control-block">
       <div class="control-title">🏆 Équipe A</div>
-      <button id="btnTeamA">Choisir Équipe A</button>
+      <button id="btnTeamA" onclick="openClubList('A')">Choisir Équipe A</button>
     </div>
 
     <div class="control-block">
       <div class="control-title">🏆 Équipe B</div>
-      <button id="btnTeamB">Choisir Équipe B</button>
+      <button id="btnTeamB" onclick="openClubList('B')">Choisir Équipe B</button>
     </div>
 
+    <!-- Recherche club -->
     <div class="control-block">
-      <input type="text" id="clubSearch" placeholder="🔍 Rechercher un club" class="hidden">
+      <input
+        type="text"
+        id="clubSearch"
+        placeholder="🔍 Rechercher un club (nom ou abréviation)"
+        class="hidden"
+      >
       <div id="clubList" class="hidden"></div>
     </div>
 
+    <!-- Scores -->
     <div class="control-block">
       <div class="control-title">⚽ Score Équipe A</div>
-      <input type="number" min="0" value="0" id="scoreAInput">
+      <input
+        type="number"
+        min="0"
+        max="9"
+        value="0"
+        oninput="displayScoreA.textContent = Math.max(0, this.value || 0)"
+      >
     </div>
 
     <div class="control-block">
       <div class="control-title">⚽ Score Équipe B</div>
-      <input type="number" min="0" value="0" id="scoreBInput">
+      <input
+        type="number"
+        min="0"
+        value="0"
+        oninput="displayScoreB.textContent = Math.max(0, this.value || 0)"
+      >
     </div>
 
+    <!-- Info droite -->
     <div class="control-block">
       <div class="control-title">📅 Info droite</div>
-      <input type="text" value="JOURNÉE 13" id="info2Input">
+      <input
+        type="text"
+        placeholder="Ex: JOURNÉE 13"
+        value="JOURNÉE 13"
+        oninput="info2.textContent=this.value"
+      >
     </div>
 
+    <!-- Compétition -->
     <div class="control-block">
       <div class="control-title">🏅 Compétition</div>
       <div class="button-group">
-        <button class="active" data-info="LIGUE 1">Ligue 1</button>
-        <button data-info="NATIONAL 3">National 3</button>
+        <button class="active" onclick="setInfo1('LIGUE 1', event)">Ligue 1</button>
+        <button onclick="setInfo1('NATIONAL 3', event)">National 3</button>
       </div>
     </div>
 
+    <!-- Image -->
     <div class="control-block">
-      <div class="control-title">🖼️ Image de fond</div>
-      <input type="file" accept="image/*" id="bgInput">
+      <div class="control-title">🖼️ Importer image de fond</div>
+      <input type="file" accept="image/*,.jpg,.jpeg,.png,.gif,.webp" onchange="loadBackground(event)">
     </div>
 
+    <!-- Zoom -->
     <div class="control-block">
-      <button id="zoomBtn">🔍 Zoom image</button>
+      <button onclick="toggleZoom(true)">🔍 Zoom image</button>
+
       <div id="zoomControls" class="hidden">
-        <input type="range" min="1" max="3" step="0.01" value="1" id="zoomRange">
-        <button id="closeZoom">Fermer le zoom</button>
+        <input
+          type="range"
+          min="1"
+          max="3"
+          step="0.01"
+          value="1"
+          oninput="zoomBg(this.value)"
+        >
+        <button onclick="toggleZoom(false)">Fermer le zoom</button>
       </div>
     </div>
 
+    <!-- Export -->
     <div class="control-block">
-      <button id="exportBtn" class="export">
+      <button onclick="exportImage()" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); font-size: 15px; padding: 14px;">
         📥 Exporter l'affiche
       </button>
     </div>
 
   </div>
+
 </div>
 
-<!-- JS -->
+<!-- JavaScript externe -->
+ <script src="clubs.js"></script>
 <script src="script.js"></script>
-<script src="clubs.js"></script>
 
 </body>
 </html>
