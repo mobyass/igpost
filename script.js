@@ -1,3 +1,6 @@
+// Attendre que le DOM soit complètement chargé
+document.addEventListener('DOMContentLoaded', function() {
+
 // Variables
 let equipeA = null;
 let equipeB = null;
@@ -215,3 +218,6 @@ function exportImage() {
     a.click();
   });
 }
+
+// Fin du DOMContentLoaded
+});
