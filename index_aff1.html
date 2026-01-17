@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Post Match Generator</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Jersey+25&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- html2canvas -->
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+</head>
+
+<body>
+
+<h1 class="main-title">Post Match Generator</h1>
+
+<div class="layout">
+
+  <!-- VISUEL -->
+  <div class="visual-container">
+    <div class="base" id="capture">
+      <img id="bgImage" class="bg-image">
+
+      <div class="info info1" id="info1">LIGUE 1</div>
+      <div class="info AvsB" id="matchTitle">Équipe A - Équipe B</div>
+      <div class="info info2" id="info2">JOURNÉE 13</div>
+
+      <div class="rouge"></div>
+      <div class="texte">FULLTIME</div>
+
+      <div class="degrader"></div>
+      <div class="vertA" id="logoA"></div>
+      <div class="vertB" id="logoB"></div>
+
+      <div class="scoreA" id="displayScoreA">0</div>
+      <div class="trait">-</div>
+      <div class="scoreB" id="displayScoreB">0</div>
+    </div>
+  </div>
+
+  <!-- CONTROLS -->
+  <div class="controls">
+
+    <div class="control-block">
+      <div class="control-title">🏆 Équipe A</div>
+      <button id="btnTeamA">Choisir Équipe A</button>
+    </div>
+
+    <div class="control-block">
+      <div class="control-title">🏆 Équipe B</div>
+      <button id="btnTeamB">Choisir Équipe B</button>
+    </div>
+
+    <div class="control-block">
+      <input type="text" id="clubSearch" placeholder="🔍 Rechercher un club" class="hidden">
+      <div id="clubList" class="hidden"></div>
+    </div>
+
+    <div class="control-block">
+      <div class="control-title">⚽ Score Équipe A</div>
+      <input type="number" min="0" value="0" id="scoreAInput">
+    </div>
+
+    <div class="control-block">
+      <div class="control-title">⚽ Score Équipe B</div>
+      <input type="number" min="0" value="0" id="scoreBInput">
+    </div>
+
+    <div class="control-block">
+      <div class="control-title">📅 Info droite</div>
+      <input type="text" value="JOURNÉE 13" id="info2Input">
+    </div>
+
+    <div class="control-block">
+      <div class="control-title">🏅 Compétition</div>
+      <div class="button-group">
+        <button class="active" data-info="LIGUE 1">Ligue 1</button>
+        <button data-info="NATIONAL 3">National 3</button>
+      </div>
+    </div>
+
+    <div class="control-block">
+      <div class="control-title">🖼️ Image de fond</div>
+      <input type="file" accept="image/*" id="bgInput">
+    </div>
+
+    <div class="control-block">
+      <button id="zoomBtn">🔍 Zoom image</button>
+      <div id="zoomControls" class="hidden">
+        <input type="range" min="1" max="3" step="0.01" value="1" id="zoomRange">
+        <button id="closeZoom">Fermer le zoom</button>
+      </div>
+    </div>
+
+    <div class="control-block">
+      <button id="exportBtn" class="export">
+        📥 Exporter l'affiche
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<!-- JS -->
+<script src="script.js"></script>
+<script src="clubs.js"></script>
+
+</body>
+</html>
