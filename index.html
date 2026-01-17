@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mobyass igPost</title>
+  <title>Post Match Generator</title>
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&display=swap" rel="stylesheet">
@@ -51,12 +51,12 @@
     <!-- Équipes -->
     <div class="control-block">
       <div class="control-title">🏆 Équipe A</div>
-      <button id="btnTeamA" onclick="openClubList('A')">Choisir Équipe A</button>
+      <button id="btnTeamA">Choisir Équipe A</button>
     </div>
 
     <div class="control-block">
       <div class="control-title">🏆 Équipe B</div>
-      <button id="btnTeamB" onclick="openClubList('B')">Choisir Équipe B</button>
+      <button id="btnTeamB">Choisir Équipe B</button>
     </div>
 
     <!-- Recherche club -->
@@ -75,10 +75,10 @@
       <div class="control-title">⚽ Score Équipe A</div>
       <input
         type="number"
+        id="inputScoreA"
         min="0"
         max="9"
         value="0"
-        oninput="displayScoreA.textContent = Math.max(0, this.value || 0)"
       >
     </div>
 
@@ -86,9 +86,9 @@
       <div class="control-title">⚽ Score Équipe B</div>
       <input
         type="number"
+        id="inputScoreB"
         min="0"
         value="0"
-        oninput="displayScoreB.textContent = Math.max(0, this.value || 0)"
       >
     </div>
 
@@ -97,9 +97,9 @@
       <div class="control-title">📅 Info droite</div>
       <input
         type="text"
+        id="inputInfo2"
         placeholder="Ex: JOURNÉE 13"
         value="JOURNÉE 13"
-        oninput="info2.textContent=this.value"
       >
     </div>
 
@@ -107,37 +107,37 @@
     <div class="control-block">
       <div class="control-title">🏅 Compétition</div>
       <div class="button-group">
-        <button class="active" onclick="setInfo1('LIGUE 1', event)">Ligue 1</button>
-        <button onclick="setInfo1('NATIONAL 3', event)">National 3</button>
+        <button class="active" data-competition="LIGUE 1">Ligue 1</button>
+        <button data-competition="NATIONAL 3">National 3</button>
       </div>
     </div>
 
     <!-- Image -->
     <div class="control-block">
       <div class="control-title">🖼️ Importer image de fond</div>
-      <input type="file" accept="image/*,.jpg,.jpeg,.png,.gif,.webp" onchange="loadBackground(event)">
+      <input type="file" id="fileInput" accept="image/*,.jpg,.jpeg,.png,.gif,.webp">
     </div>
 
     <!-- Zoom -->
     <div class="control-block">
-      <button onclick="toggleZoom(true)">🔍 Zoom image</button>
+      <button id="btnZoom">🔍 Zoom image</button>
 
       <div id="zoomControls" class="hidden">
         <input
           type="range"
+          id="zoomSlider"
           min="1"
           max="3"
           step="0.01"
           value="1"
-          oninput="zoomBg(this.value)"
         >
-        <button onclick="toggleZoom(false)">Fermer le zoom</button>
+        <button id="btnCloseZoom">Fermer le zoom</button>
       </div>
     </div>
 
     <!-- Export -->
     <div class="control-block">
-      <button onclick="exportImage()" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); font-size: 15px; padding: 14px;">
+      <button id="btnExport" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); font-size: 15px; padding: 14px;">
         📥 Exporter l'affiche
       </button>
     </div>
@@ -147,7 +147,7 @@
 </div>
 
 <!-- JavaScript externe -->
- <script src="clubs.js"></script>
+<script src="clubs.js"></script>
 <script src="script.js"></script>
 
 </body>
