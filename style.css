@@ -214,8 +214,8 @@ body {
   border-radius: 25px;
 }
 
-.vertA { left: -90px; }
-.vertB { right: -90px; }
+.vertA { left: -80px; }
+.vertB { right: -80px; }
 
 .scoreA, .scoreB, .trait {
   position: absolute;
