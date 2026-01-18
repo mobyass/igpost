@@ -48,62 +48,38 @@
   <!-- ===== CONTROLS (Scrollable) ===== -->
   <div class="controls">
 
-    <!-- new Équipes -->
-    <div class="control-block">
-  <div class="control-title">🏆 Équipe A</div>
-  <div class="team-display-v1" id="teamA-display">
-    <div class="team-logo-preview empty-logo" id="teamA-logo"></div>
-    <div class="team-info">
-      <div class="team-name" id="teamA-name">Aucune équipe</div>
-      <button id="teamA-btn">Choisir</button>
-    </div>
-  </div>
-</div>
-
-<div class="control-block">
-  <div class="control-title">🏆 Équipe B</div>
-  <div class="team-display-v1" id="teamB-display">
-    <div class="team-logo-preview empty-logo" id="teamB-logo"></div>
-    <div class="team-info">
-      <div class="team-name" id="teamB-name">Aucune équipe</div>
-      <button id="teamB-btn">Choisir</button>
-    </div>
-  </div>
-</div>
-<!-- MODAL -->
-<div class="modal" id="clubModal">
-  <div class="modal-content">
-    <button class="modal-close-x" id="closeModalX">×</button>
-    <div class="modal-title">Choisir une équipe</div>
-    <input type="text" class="club-search" id="clubSearchModal" placeholder="🔍 Rechercher une équipe...">
-    <div class="club-list" id="clubListModal"></div>
-    <button class="modal-close" id="closeModal">Fermer</button>
-  </div>
-</div>
-
-
-
-    <!-- Équipes 
+    <!-- Équipes -->
     <div class="control-block">
       <div class="control-title">🏆 Équipe A</div>
-      <button id="btnTeamA">Choisir Équipe A</button>
+      <div class="team-display-v1" id="teamA-display">
+        <div class="team-logo-preview empty-logo" id="teamA-logo"></div>
+        <div class="team-info">
+          <div class="team-name" id="teamA-name">Aucune équipe</div>
+          <button id="teamA-btn">Choisir</button>
+        </div>
+      </div>
     </div>
 
     <div class="control-block">
       <div class="control-title">🏆 Équipe B</div>
-      <button id="btnTeamB">Choisir Équipe B</button>
+      <div class="team-display-v1" id="teamB-display">
+        <div class="team-logo-preview empty-logo" id="teamB-logo"></div>
+        <div class="team-info">
+          <div class="team-name" id="teamB-name">Aucune équipe</div>
+          <button id="teamB-btn">Choisir</button>
+        </div>
+      </div>
     </div>
-    -->
 
-    <!-- Recherche club -->
-    <div class="control-block">
-      <input
-        type="text"
-        id="clubSearch"
-        placeholder="🔍 Rechercher un club (nom ou abréviation)"
-        class="hidden"
-      >
-      <div id="clubList" class="hidden"></div>
+    <!-- MODAL SÉLECTION ÉQUIPE -->
+    <div class="modal" id="clubModal">
+      <div class="modal-content">
+        <button class="modal-close-x" id="closeModalX">×</button>
+        <div class="modal-title">Choisir une équipe</div>
+        <input type="text" class="club-search" id="clubSearchModal" placeholder="🔍 Rechercher une équipe...">
+        <div class="club-list" id="clubListModal"></div>
+        <button class="modal-close" id="closeModal">Fermer</button>
+      </div>
     </div>
 
     <!-- Scores -->
@@ -154,8 +130,15 @@
       <input type="file" id="fileInput" accept="image/*,.jpg,.jpeg,.png,.gif,.webp">
     </div>
 
-    <!-- Zoom -->
+    <!-- NOUVEAU : Bouton Recadrer -->
     <div class="control-block">
+      <button id="btnRecadrer" disabled style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+        ✂️ Recadrer l'image
+      </button>
+    </div>
+
+    <!-- Ancien Zoom (caché par défaut, optionnel) -->
+    <div class="control-block hidden">
       <button id="btnZoom">🔍 Zoom image</button>
 
       <div id="zoomControls" class="hidden">
@@ -185,6 +168,59 @@
 
   </div>
 
+</div>
+
+<!-- MODAL RECADRAGE -->
+<div class="recadrage-modal" id="recadrageModal">
+  <div class="recadrage-container">
+    
+    <div class="recadrage-header">
+      <h2>✂️ Recadrer l'image</h2>
+      <p>📱 1 doigt pour déplacer • 🤏 2 doigts pour zoomer</p>
+    </div>
+
+    <!-- PREVIEW COMPLET AVEC TOUS LES ÉLÉMENTS -->
+    <div class="recadrage-preview" id="recadragePreview">
+      <img id="recadrageImage" class="recadrage-image">
+
+      <!-- TOUS LES ÉLÉMENTS VISUELS -->
+      <div class="info info1" id="recadrage-info1">LIGUE 1</div>
+      <div class="info AvsB" id="recadrage-matchTitle">Équipe A - Équipe B</div>
+      <div class="info info2" id="recadrage-info2">JOURNÉE 13</div>
+
+      <div class="rouge"></div>
+      <div class="texte">FULLTIME</div>
+
+      <div class="degrader"></div>
+      <div class="vertA" id="recadrage-logoA"></div>
+      <div class="vertB" id="recadrage-logoB"></div>
+      <div class="scoreA" id="recadrage-displayScoreA">0</div>
+      <div class="trait">-</div>
+      <div class="scoreB" id="recadrage-displayScoreB">0</div>
+
+      <div class="recadrage-grid"></div>
+    </div>
+
+    <div class="recadrage-controls">
+      <div class="zoom-control">
+        <label>🔍 Zoom</label>
+        <input 
+          type="range" 
+          id="recadrageZoomSlider" 
+          min="1" 
+          max="3" 
+          step="0.01" 
+          value="1"
+        >
+      </div>
+
+      <div class="recadrage-actions">
+        <button id="btnAnnulerRecadrage">❌ Annuler</button>
+        <button id="btnValiderRecadrage">✅ Valider</button>
+      </div>
+    </div>
+
+  </div>
 </div>
 
 <!-- JavaScript externe -->
