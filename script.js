@@ -1,253 +1,268 @@
 // Attendre que le DOM soit complètement chargé
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
 
+  // =====================
+  // VARIABLES
+  // =====================
+  let equipeA = null;
+  let equipeB = null;
+  let currentTeam = null;
 
-// Variables
-let equipeA = null;
-let equipeB = null;
-let currentTeam = null;
+  // =====================
+  // ELEMENTS DOM
+  // =====================
+  const clubList = document.getElementById("clubListModal");
+  const clubSearch = document.getElementById("clubSearchModal");
 
-// Elements DOM
-const clubList = document.getElementById("clubList");
-const clubSearch = document.getElementById("clubSearch");
-const btnTeamA = document.getElementById("btnTeamA");
-const btnTeamB = document.getElementById("btnTeamB");
-const logoA = document.getElementById("logoA");
-const logoB = document.getElementById("logoB");
-const matchTitle = document.getElementById("matchTitle");
-const displayScoreA = document.getElementById("displayScoreA");
-const displayScoreB = document.getElementById("displayScoreB");
-const inputScoreA = document.getElementById("inputScoreA");
-const inputScoreB = document.getElementById("inputScoreB");
-const inputInfo2 = document.getElementById("inputInfo2");
-const info1 = document.getElementById("info1");
-const info2 = document.getElementById("info2");
-const fileInput = document.getElementById("fileInput");
-const btnZoom = document.getElementById("btnZoom");
-const btnCloseZoom = document.getElementById("btnCloseZoom");
-const zoomSlider = document.getElementById("zoomSlider");
-const btnExport = document.getElementById("btnExport");
-const btnShare = document.getElementById("btnShare");
-const bgImage = document.getElementById("bgImage");
-const capture = document.getElementById("capture");
+  const logoA = document.getElementById("logoA");
+  const logoB = document.getElementById("logoB");
 
-// Event Listeners
-btnTeamA.addEventListener("click", () => openClubList("A"));
-btnTeamB.addEventListener("click", () => openClubList("B"));
+  const matchTitle = document.getElementById("matchTitle");
 
-inputScoreA.addEventListener("input", (e) => {
-  displayScoreA.textContent = Math.max(0, e.target.value || 0);
-});
+  const displayScoreA = document.getElementById("displayScoreA");
+  const displayScoreB = document.getElementById("displayScoreB");
+  const inputScoreA = document.getElementById("inputScoreA");
+  const inputScoreB = document.getElementById("inputScoreB");
 
-inputScoreB.addEventListener("input", (e) => {
-  displayScoreB.textContent = Math.max(0, e.target.value || 0);
-});
+  const inputInfo2 = document.getElementById("inputInfo2");
+  const info1 = document.getElementById("info1");
+  const info2 = document.getElementById("info2");
 
-inputInfo2.addEventListener("input", (e) => {
-  info2.textContent = e.target.value;
-});
+  const fileInput = document.getElementById("fileInput");
+  const btnZoom = document.getElementById("btnZoom");
+  const btnCloseZoom = document.getElementById("btnCloseZoom");
+  const zoomSlider = document.getElementById("zoomSlider");
+  const btnExport = document.getElementById("btnExport");
+  const btnShare = document.getElementById("btnShare");
 
-// Competition buttons
-document.querySelectorAll('[data-competition]').forEach(btn => {
-  btn.addEventListener("click", (e) => {
-    const competition = e.target.dataset.competition;
-    info1.textContent = competition;
-    
-    // Remove active class from all buttons
-    e.target.parentElement.querySelectorAll("button").forEach(b => {
-      b.classList.remove("active");
-    });
-    
-    // Add active class to clicked button
-    e.target.classList.add("active");
+  const bgImage = document.getElementById("bgImage");
+  const capture = document.getElementById("capture");
+
+  const modal = document.getElementById("clubModal");
+
+  // =====================
+  // SCORES
+  // =====================
+  inputScoreA.addEventListener("input", e => {
+    displayScoreA.textContent = Math.max(0, e.target.value || 0);
   });
-});
 
-fileInput.addEventListener("change", loadBackground);
-btnZoom.addEventListener("click", () => toggleZoom(true));
-btnCloseZoom.addEventListener("click", () => toggleZoom(false));
-zoomSlider.addEventListener("input", (e) => zoomBg(e.target.value));
-btnExport.addEventListener("click", exportImage);
-btnShare.addEventListener("click", shareImage);
-
-// Functions
-function openClubList(team) {
-  currentTeam = team;
-  clubList.innerHTML = "";
-  clubList.classList.remove("hidden");
-  clubSearch.classList.remove("hidden");
-  clubSearch.value = "";
-  renderClubList("");
-}
-
-function renderClubList(filter) {
-  clubList.innerHTML = "";
-
-  const filtered = CLUBS.filter(club => {
-    const txt = (club.nom + " " + (club.abbr || "")).toLowerCase();
-    return txt.includes(filter.toLowerCase());
-  }).slice(0, 4);
-
-  filtered.forEach(club => {
-    const div = document.createElement("div");
-    div.className = "club-option";
-    div.textContent = club.nom;
-
-    div.addEventListener("click", () => {
-      if (currentTeam === "A") {
-        equipeA = club;
-        logoA.style.backgroundImage = `url(${club.logo})`;
-        btnTeamA.textContent = club.nom;
-      } else {
-        equipeB = club;
-        logoB.style.backgroundImage = `url(${club.logo})`;
-        btnTeamB.textContent = club.nom;
-      }
-
-      matchTitle.textContent =
-        `${equipeA?.nom || "Équipe A"} - ${equipeB?.nom || "Équipe B"}`;
-
-      clubList.classList.add("hidden");
-      clubSearch.classList.add("hidden");
-    });
-
-    clubList.appendChild(div);
+  inputScoreB.addEventListener("input", e => {
+    displayScoreB.textContent = Math.max(0, e.target.value || 0);
   });
-}
 
-clubSearch.addEventListener("input", () => {
-  renderClubList(clubSearch.value);
-});
+  inputInfo2.addEventListener("input", e => {
+    info2.textContent = e.target.value;
+  });
 
-document.addEventListener("keydown", e => {
-  if (e.key === "Escape") {
-    clubList.classList.add("hidden");
-    clubSearch.classList.add("hidden");
+  // =====================
+  // COMPETITION
+  // =====================
+  document.querySelectorAll('[data-competition]').forEach(btn => {
+    btn.addEventListener("click", e => {
+      info1.textContent = e.target.dataset.competition;
+      e.target.parentElement.querySelectorAll("button")
+        .forEach(b => b.classList.remove("active"));
+      e.target.classList.add("active");
+    });
+  });
+
+  // =====================
+  // MODAL SELECTION
+  // =====================
+  document.getElementById("teamA-btn").addEventListener("click", () => openModal("A"));
+  document.getElementById("teamB-btn").addEventListener("click", () => openModal("B"));
+
+  document.getElementById("closeModal").addEventListener("click", closeModal);
+  document.getElementById("closeModalX").addEventListener("click", closeModal);
+
+  modal.addEventListener("click", e => {
+    if (e.target === modal) closeModal();
+  });
+
+  clubSearch.addEventListener("input", e => {
+    renderModalList(e.target.value);
+  });
+
+  function openModal(team) {
+    currentTeam = team;
+    modal.classList.add("active");
+    clubSearch.value = "";
+    renderModalList("");
+    clubSearch.focus();
   }
-});
 
-const FRAME_W = 400;
-const FRAME_H = 500;
+  function closeModal() {
+    modal.classList.remove("active");
+  }
 
-let baseScale = 1;
-let zoom = 1;
-let offsetX = 0;
-let offsetY = 0;
-let dragging = false;
-let startX = 0;
-let startY = 0;
+  function renderModalList(filter) {
+    clubList.innerHTML = "";
 
-function loadBackground(e) {
-  const file = e.target.files[0];
-  if (!file) return;
+    CLUBS
+      .filter(c =>
+        (c.nom + " " + (c.abbr || "")).toLowerCase().includes(filter.toLowerCase())
+      )
+      .slice(0, filter === "" ? 4 : CLUBS.length)
+      .forEach(club => {
+        const div = document.createElement("div");
+        div.className = "club-option";
+        div.innerHTML = `
+          <div class="club-option-logo" style="background-image:url('${club.logo}')"></div>
+          <div>${club.nom}</div>
+        `;
+        div.addEventListener("click", () => {
+          selectTeam(club);
+          closeModal();
+        });
+        clubList.appendChild(div);
+      });
+  }
 
-  const reader = new FileReader();
-  reader.onload = () => {
-    bgImage.onload = () => {
-      baseScale = Math.max(
-        FRAME_W / bgImage.naturalWidth,
-        FRAME_H / bgImage.naturalHeight
-      );
+  function selectTeam(club) {
+    if (currentTeam === "A") {
+      equipeA = club;
+      updateTeam("A", club);
+      logoA.style.backgroundImage = `url('${club.logo}')`;
+    } else {
+      equipeB = club;
+      updateTeam("B", club);
+      logoB.style.backgroundImage = `url('${club.logo}')`;
+    }
 
-      zoom = 1;
+    matchTitle.textContent =
+      `${equipeA?.nom || "Équipe A"} - ${equipeB?.nom || "Équipe B"}`;
+  }
 
-      bgImage.width = bgImage.naturalWidth * baseScale;
-      bgImage.height = bgImage.naturalHeight * baseScale;
+  function updateTeam(team, club) {
+    const display = document.getElementById(`team${team}-display`);
+    const logo = document.getElementById(`team${team}-logo`);
+    const name = document.getElementById(`team${team}-name`);
+    const btn = document.getElementById(`team${team}-btn`);
 
-      offsetX = (FRAME_W - bgImage.width) / 2;
-      offsetY = (FRAME_H - bgImage.height) / 2;
+    display.classList.add("selected");
+    logo.style.backgroundImage = `url('${club.logo}')`;
+    logo.classList.remove("empty-logo"); // 🔥 enlève le ?
+    name.textContent = club.nom;
+    btn.textContent = "Modifier";
+  }
 
-      apply();
+  // =====================
+  // BACKGROUND / ZOOM
+  // =====================
+  const FRAME_W = 400;
+  const FRAME_H = 500;
+
+  let baseScale = 1;
+  let zoom = 1;
+  let offsetX = 0;
+  let offsetY = 0;
+  let dragging = false;
+  let startX = 0;
+  let startY = 0;
+
+  fileInput.addEventListener("change", loadBackground);
+  btnZoom.addEventListener("click", () => toggleZoom(true));
+  btnCloseZoom.addEventListener("click", () => toggleZoom(false));
+  zoomSlider.addEventListener("input", e => zoomBg(e.target.value));
+
+  function loadBackground(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      bgImage.onload = () => {
+        baseScale = Math.max(
+          FRAME_W / bgImage.naturalWidth,
+          FRAME_H / bgImage.naturalHeight
+        );
+        zoom = 1;
+        bgImage.width = bgImage.naturalWidth * baseScale;
+        bgImage.height = bgImage.naturalHeight * baseScale;
+        offsetX = (FRAME_W - bgImage.width) / 2;
+        offsetY = (FRAME_H - bgImage.height) / 2;
+        apply();
+      };
+      bgImage.src = reader.result;
     };
-    bgImage.src = reader.result;
-  };
-  reader.readAsDataURL(file);
-}
+    reader.readAsDataURL(file);
+  }
 
-function zoomBg(val) {
-  const prevW = bgImage.width;
-  const prevH = bgImage.height;
+  function zoomBg(val) {
+    const prevW = bgImage.width;
+    const prevH = bgImage.height;
+    zoom = Math.max(1, val);
 
-  zoom = Math.max(1, val);
+    bgImage.width = bgImage.naturalWidth * baseScale * zoom;
+    bgImage.height = bgImage.naturalHeight * baseScale * zoom;
 
-  bgImage.width = bgImage.naturalWidth * baseScale * zoom;
-  bgImage.height = bgImage.naturalHeight * baseScale * zoom;
+    offsetX -= (bgImage.width - prevW) / 2;
+    offsetY -= (bgImage.height - prevH) / 2;
 
-  offsetX -= (bgImage.width - prevW) / 2;
-  offsetY -= (bgImage.height - prevH) / 2;
+    clamp();
+    apply();
+  }
 
-  clamp();
-  apply();
-}
+  function toggleZoom(show) {
+    document.getElementById("zoomControls")
+      .classList.toggle("hidden", !show);
+  }
 
-function toggleZoom(show) {
-  const zoomControls = document.getElementById("zoomControls");
-  zoomControls.classList.toggle("hidden", !show);
-}
-
-capture.addEventListener("mousedown", (e) => {
-  dragging = true;
-  startX = e.clientX - offsetX;
-  startY = e.clientY - offsetY;
-});
-
-window.addEventListener("mousemove", (e) => {
-  if (!dragging) return;
-  offsetX = e.clientX - startX;
-  offsetY = e.clientY - startY;
-  clamp();
-  apply();
-});
-
-window.addEventListener("mouseup", () => {
-  dragging = false;
-});
-
-function clamp() {
-  offsetX = Math.min(0, Math.max(FRAME_W - bgImage.width, offsetX));
-  offsetY = Math.min(0, Math.max(FRAME_H - bgImage.height, offsetY));
-}
-
-function apply() {
-  bgImage.style.left = offsetX + "px";
-  bgImage.style.top = offsetY + "px";
-}
-
-function exportImage() {
-  html2canvas(capture, { scale: 4, useCORS: true }).then(canvas => {
-    const a = document.createElement("a");
-    a.href = canvas.toDataURL("image/png");
-    a.download = "post-match.png";
-    a.click();
+  capture.addEventListener("mousedown", e => {
+    dragging = true;
+    startX = e.clientX - offsetX;
+    startY = e.clientY - offsetY;
   });
-}
 
-function shareImage() {
-  html2canvas(capture, { scale: 4, useCORS: true }).then(canvas => {
-    canvas.toBlob(blob => {
-      if (navigator.share && navigator.canShare && navigator.canShare({ files: [new File([blob], "post-match.png", { type: "image/png" })] })) {
-        const file = new File([blob], "post-match.png", { type: "image/png" });
-        navigator.share({
-          files: [file],
-          title: "Post Match",
-          text: "Découvrez ce match !"
-        }).catch(err => {
-          console.log("Partage annulé", err);
-        });
-      } else {
-        // Fallback: copier dans le presse-papier
-        canvas.toBlob(blob => {
-          const item = new ClipboardItem({ "image/png": blob });
-          navigator.clipboard.write([item]).then(() => {
-            alert("✅ Image copiée dans le presse-papier !");
-          }).catch(err => {
-            alert("❌ Impossible de partager. Utilisez le bouton Exporter.");
-          });
-        });
-      }
+  window.addEventListener("mousemove", e => {
+    if (!dragging) return;
+    offsetX = e.clientX - startX;
+    offsetY = e.clientY - startY;
+    clamp();
+    apply();
+  });
+
+  window.addEventListener("mouseup", () => dragging = false);
+
+  function clamp() {
+    offsetX = Math.min(0, Math.max(FRAME_W - bgImage.width, offsetX));
+    offsetY = Math.min(0, Math.max(FRAME_H - bgImage.height, offsetY));
+  }
+
+  function apply() {
+    bgImage.style.left = offsetX + "px";
+    bgImage.style.top = offsetY + "px";
+  }
+
+  // =====================
+  // EXPORT / SHARE
+  // =====================
+  btnExport.addEventListener("click", exportImage);
+  btnShare.addEventListener("click", shareImage);
+
+  function exportImage() {
+    html2canvas(capture, { scale: 4, useCORS: true }).then(canvas => {
+      const a = document.createElement("a");
+      a.href = canvas.toDataURL("image/png");
+      a.download = "post-match.png";
+      a.click();
     });
-  });
-}
+  }
 
-// Fin du DOMContentLoaded
+  function shareImage() {
+    html2canvas(capture, { scale: 4, useCORS: true }).then(canvas => {
+      canvas.toBlob(blob => {
+        if (navigator.share && navigator.canShare) {
+          const file = new File([blob], "post-match.png", { type: "image/png" });
+          navigator.share({ files: [file] });
+        } else {
+          const item = new ClipboardItem({ "image/png": blob });
+          navigator.clipboard.write([item]);
+          alert("✅ Image copiée !");
+        }
+      });
+    });
+  }
+
 });
