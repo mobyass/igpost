@@ -611,8 +611,6 @@ button.active {
 
   .visual-container {
     position: static;
-    transform: scale(0.90);
-
   }
 
   .controls {
