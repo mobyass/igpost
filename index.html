@@ -48,7 +48,42 @@
   <!-- ===== CONTROLS (Scrollable) ===== -->
   <div class="controls">
 
-    <!-- Équipes -->
+    <!-- new Équipes -->
+    <div class="control-block">
+  <div class="control-title">🏆 Équipe A</div>
+  <div class="team-display-v1" id="teamA-display">
+    <div class="team-logo-preview empty-logo" id="teamA-logo"></div>
+    <div class="team-info">
+      <div class="team-name" id="teamA-name">Aucune équipe</div>
+      <button id="teamA-btn">Choisir</button>
+    </div>
+  </div>
+</div>
+
+<div class="control-block">
+  <div class="control-title">🏆 Équipe B</div>
+  <div class="team-display-v1" id="teamB-display">
+    <div class="team-logo-preview empty-logo" id="teamB-logo"></div>
+    <div class="team-info">
+      <div class="team-name" id="teamB-name">Aucune équipe</div>
+      <button id="teamB-btn">Choisir</button>
+    </div>
+  </div>
+</div>
+<!-- MODAL -->
+<div class="modal" id="clubModal">
+  <div class="modal-content">
+    <button class="modal-close-x" id="closeModalX">×</button>
+    <div class="modal-title">Choisir une équipe</div>
+    <input type="text" class="club-search" id="clubSearchModal" placeholder="🔍 Rechercher une équipe...">
+    <div class="club-list" id="clubListModal"></div>
+    <button class="modal-close" id="closeModal">Fermer</button>
+  </div>
+</div>
+
+
+
+    <!-- Équipes 
     <div class="control-block">
       <div class="control-title">🏆 Équipe A</div>
       <button id="btnTeamA">Choisir Équipe A</button>
@@ -58,6 +93,7 @@
       <div class="control-title">🏆 Équipe B</div>
       <button id="btnTeamB">Choisir Équipe B</button>
     </div>
+    -->
 
     <!-- Recherche club -->
     <div class="control-block">
@@ -127,7 +163,7 @@
           type="range"
           id="zoomSlider"
           min="1"
-          max="3"
+          max="1.5"
           step="0.01"
           value="1"
         >
