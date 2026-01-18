@@ -1,33 +1,51 @@
 // clubs.js
 const CLUBS = [
   {
-    id: "memphis",
-    nom: "Memphis Grizzlies",
-    abbr: "MEM",
-    logo: "https://upload.wikimedia.org/wikipedia/fr/3/39/Grizzlies_de_Memphis_logo.svg"
+    id: "psg",
+    nom: "Paris Saint-Germain",
+    abbr: "PSG",
+    logo: "https://upload.wikimedia.org/wikipedia/fr/8/86/Paris_Saint-Germain_Logo.svg"
   },
   {
-    id: "chicago",
-    nom: "Chicago Bulls",
-    abbr: "CHI",
-    logo: "https://upload.wikimedia.org/wikipedia/fr/d/d1/Bulls_de_Chicago_logo.svg"
+    id: "om",
+    nom: "Olympique de Marseille",
+    abbr: "OM",
+    logo: "https://upload.wikimedia.org/wikipedia/fr/4/43/Logo_Olympique_de_Marseille.svg"
   },
   {
-    id: "lakers",
-    nom: "Los Angeles Lakers",
-    abbr: "LAL",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/3/3c/Los_Angeles_Lakers_logo.svg"
+    id: "ol",
+    nom: "Olympique Lyonnais",
+    abbr: "OL",
+    logo: "https://upload.wikimedia.org/wikipedia/fr/a/a5/Logo_Olympique_Lyonnais_-_2022.svg"
   },
   {
-    id: "warriors",
-    nom: "Golden State Warriors",
-    abbr: "GSW",
-    logo: "https://upload.wikimedia.org/wikipedia/en/0/01/Golden_State_Warriors_logo.svg"
+    id: "monaco",
+    nom: "AS Monaco",
+    abbr: "ASM",
+    logo: "https://upload.wikimedia.org/wikipedia/fr/5/58/Logo_AS_Monaco_FC_-_2021.svg"
   },
   {
-    id: "spurs",
-    nom: "San Antonio Spurs",
-    abbr: "SAS",
-    logo: "https://upload.wikimedia.org/wikipedia/fr/a/a2/San_Antonio_Spurs.svg"
+    id: "lille",
+    nom: "LOSC Lille",
+    abbr: "LOSC",
+    logo: "https://upload.wikimedia.org/wikipedia/fr/6/62/Logo_LOSC_Lille_2018.svg"
+  },
+  {
+    id: "strasbourg",
+    nom: "RC Strasbourg Alsace",
+    abbr: "RCSA",
+    logo: "https://upload.wikimedia.org/wikipedia/fr/7/70/Racing_Club_de_Strasbourg_Alsace_%28RC_Strasbourg_-_RCS_-_RCSA%29_logo_officiel.svg"
+  },
+  {
+    id: "toulouse",
+    nom: "Toulouse FC",
+    abbr: "TFC",
+    logo: "https://upload.wikimedia.org/wikipedia/fr/5/58/Toulouse_FC_logo_2021.svg"
+  },
+  {
+    id: "nantes",
+    nom: "FC Nantes",
+    abbr: "FCN",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/4/45/Logo_FC_Nantes_%28avec_fond%29_-_2019.svg"
   }
 ];
