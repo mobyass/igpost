@@ -1,10 +1,16 @@
 // clubs.js
 const CLUBS = [
   {
-    id: "psg",
-    nom: "Paris Saint-Germain",
-    abbr: "PSG",
-    logo: "https://upload.wikimedia.org/wikipedia/fr/8/86/Paris_Saint-Germain_Logo.svg"
+    id: "longueville",
+    nom: "AS Longueville",
+    abbr: "ASL",
+    logo: "https://api.sportcorico.com/storage/logos/logo-la-longueville-as-523586.jpg"
+  },
+  {
+    id: "bachant",
+    nom: "Bachant SC",
+    abbr: "BSC",
+    logo: "https://api.sportcorico.com/storage/logos/logo-bachant-sc-544834.jpg"
   },
   {
     id: "om",
@@ -47,5 +53,11 @@ const CLUBS = [
     nom: "FC Nantes",
     abbr: "FCN",
     logo: "https://upload.wikimedia.org/wikipedia/commons/4/45/Logo_FC_Nantes_%28avec_fond%29_-_2019.svg"
+  },
+  {
+    id: "psg",
+    nom: "Paris Saint-Germain",
+    abbr: "PSG",
+    logo: "https://upload.wikimedia.org/wikipedia/fr/8/86/Paris_Saint-Germain_Logo.svg"
   }
 ];
